@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+#
+# Handles oversetting the backlight (or simulating it, anyway). My laptop
+# is awfully hard to read when in sunlight, and this handles using both 
+# xrandr and xbacklight to modify the brightness on the fly.
+
+if ARGV.length != 1 then
+    abort("USAGE: #{$0} brightness (decimal or percentage).")
+end
+
+brightness = nil
+
+begin
+    if ARGV[0][-1] == "%" then
+        brightness = Float(ARGV[0][0..-2]) / 100
+    else
+        brightness = Float(ARGV[0])
+    end
+
+    if brightness < 0.1 or brightness >= 5 then
+        raise "Invalid value"
+    end
+rescue
+    abort("Expected brightness to be 0.1 <= b <= 5.0, "\
+          "where 1.0 is max display brightness.")
+end
+
+if brightness <= 1.0 then
+    pct = (brightness * 100).truncate
+    command = "xbacklight -set #{pct}% && xrandr --output LVDS1 --brightness 1"
+else
+    command = "xbacklight -set 100% && xrandr --output LVDS1 --brightness #{brightness}"
+end
+
+puts "Running \`#{command}\` now."
+`#{command}`
