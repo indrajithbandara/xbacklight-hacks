@@ -1,0 +1,2 @@
+xorg-xbrightness
+xorg-xrandr
