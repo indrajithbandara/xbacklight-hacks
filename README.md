@@ -39,12 +39,12 @@ sudo sh -c "curl \
 ```
 
 ## Usage:
-### With percentages
+**With percentages**
 - `backlight 20%`
 - `backlight 51%`
 - `backlight 150%`
 
-### With decimals
+**With decimals**
 - `backlight 0.2`
 - `backlight 0.51`
 - `backlight 1.5`
